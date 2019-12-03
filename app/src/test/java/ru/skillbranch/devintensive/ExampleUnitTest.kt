@@ -3,6 +3,8 @@ package ru.skillbranch.devintensive
 import org.junit.Test
 
 import org.junit.Assert.*
+import ru.skillbranch.devintensive.extensions.TimeUnits
+import ru.skillbranch.devintensive.extensions.add
 import ru.skillbranch.devintensive.models.User
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
@@ -52,4 +54,20 @@ class ExampleUnitTest {
         assertEquals(null to null, Utils.parseFullName(" "))
         assertEquals("John" to null, Utils.parseFullName("John"))
     }
+
+    @Test
+    fun test_copy() {
+        val user  = User.makeUser("John Wick")
+        val user1 = user.copy(lastVisit = Date())
+        val user2 = user.copy(lastVisit = Date().add(-2,TimeUnits.SECOND))
+        val user3 = user.copy(lastName = "Silverhand",lastVisit = Date().add(2,TimeUnits.HOUR))
+
+        user.printMe()
+        user1.printMe()
+        user2.printMe()
+        user3.printMe()
+        println("$user1 $user2 $user3")
+
+    }
+
 }

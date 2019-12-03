@@ -8,4 +8,12 @@ object Utils {
 
         return (if (firstName == "") null else firstName) to (if (lastName == "") null else lastName)
     }
+
+    fun transliteration(payload: String, devider:String = " "): String {
+        return TODO("Not implemented")
+    }
+
+    fun toInitials(firstName: String?, lastName: String?): String? {
+        return TODO("Not implemented")
+    }
 }
