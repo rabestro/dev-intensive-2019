@@ -70,4 +70,18 @@ class ExampleUnitTest {
 
     }
 
+    @Test
+    fun test_toInitials() {
+        var firstName = "john"
+        var lastName = "snow"
+        println("'$firstName $lastName` = `${Utils.toInitials(firstName, lastName)}`")
+
+        assertEquals("JS", Utils.toInitials(firstName, lastName))
+        assertEquals("J", Utils.toInitials(firstName, null))
+        assertEquals("S", Utils.toInitials(null, lastName))
+        assertEquals(null, Utils.toInitials(null, null))
+        assertEquals(null, Utils.toInitials(" ", null))
+        assertEquals(null, Utils.toInitials(" ", ""))
+        assertEquals("JD", Utils.toInitials(" john", "Doe"))
+    }
 }
