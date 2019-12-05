@@ -2,6 +2,8 @@ package ru.skillbranch.devintensive.extensions
 
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
+
 const val SECOND = 1000L
 const val MINUTE = 60 * SECOND
 const val HOUR = 60 * MINUTE
@@ -38,15 +40,40 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND) : Date {
 */
 
 fun Date.humanizeDiff(date: Date = Date()): String {
-	val diff = Math.abs(this.time - date.time) / 1000
-	return when(diff) {
+	val seconds = abs(this.time - date.time) / 1000
+    val minutes = 1 + (seconds - 16) / 60
+    val hours = 1 + (minutes - 16) / 60
+	return when(seconds) {
 	    in 0..1 -> "только что"
 	    in 1..45 -> "несколько секунд назад"
 	    in 45..75 -> "минуту назад"
+        in 75..195 -> "$minutes минуты назад"
+        in 195..45*60 -> "$minutes минут назад"
+        in 45*60 .. 75*60 -> "час назад"
+        in 75*60 .. 4*60*60 -> "$hours часа назад"
+        in 4*60*60 .. 22*60*60 -> "$hours часов назад"
+        in 22*60*60 .. 26*60*60 -> "день назад"
+        in 26*60*60 .. 360*24*60*60 -> "${ hours / 24 } дней назад"
 	    else -> "более года назад"
 	}
 }
 
 enum class TimeUnits {
-    SECOND, MINUTE, HOUR, DAY
+    SECOND {
+        override fun plural(value:Int) =
+            "$value секунд${when(value % 10) {1 -> "а"; in 2..4 -> "ы"; else -> ""}}"
+    },
+    MINUTE {
+        override fun plural(value:Int) =
+            "$value минут${when(value % 10) {1 -> "а"; in 2..4 -> "ы"; else -> ""}}"
+    },
+    HOUR {
+        override fun plural(value:Int) =
+            "$value ${when(value % 10) {1 -> "час"; in 2..4 -> "часа"; else -> "часов"}}"
+    },
+    DAY {
+        override fun plural(value:Int) =
+            "$value ${when(value % 10) {1 -> "день"; in 2..4 -> "дня"; else -> "дней"}}"
+    };
+    abstract fun plural(value:Int): String
 }
