@@ -24,9 +24,27 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND) : Date {
     return this
 }
 
+/*
+Временные интервалы для humanizeDiff
+0с - 1с "только что"
+1с - 45с "несколько секунд назад"
+45с - 75с "минуту назад"
+75с - 45мин "N минут назад"
+45мин - 75мин "час назад"
+75мин 22ч "N часов назад"
+22ч - 26ч "день назад"
+26ч - 360д "N дней назад"
+>360д "более года назад"
+*/
+
 fun Date.humanizeDiff(date: Date = Date()): String {
-    TODO("Not implemented")
-    return " ..."
+	val diff = Math.abs(this.time - date.time) / 1000
+	return when(diff) {
+	    in 0..1 -> "только что"
+	    in 1..45 -> "несколько секунд назад"
+	    in 45..75 -> "минуту назад"
+	    else -> "более года назад"
+	}
 }
 
 enum class TimeUnits {
