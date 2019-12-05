@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.Assert.*
 import ru.skillbranch.devintensive.extensions.TimeUnits
 import ru.skillbranch.devintensive.extensions.add
+import ru.skillbranch.devintensive.extensions.toUserView
 import ru.skillbranch.devintensive.models.User
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
@@ -73,9 +74,9 @@ class ExampleUnitTest {
     @Test
     fun test_data_mapping() {
         val user  = User.makeUser("John Wick")
-        val userView = user.toUserView();
-        println(user);
-        userView.printMe();
+        val userView = user.toUserView()
+        println(user)
+        userView.printMe()
     }
 
     @Test
