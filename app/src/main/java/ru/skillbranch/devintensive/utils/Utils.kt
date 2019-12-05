@@ -10,7 +10,16 @@ object Utils {
     }
 
     fun transliteration(payload: String, devider:String = " "): String {
-        return TODO("Not implemented")
+        val cyrilic = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя "
+	    val latin = arrayOf("a", "b", "v", "g", "d", "e", "e", "zh", "z", "i", "i", "k", "l", "m", "n", 
+		"o", "p", "r", "s", "t", "u", "f", "h", "c", "ch", "sh", "sh'", "", "i", "", "e", "yu", "ya", devider)
+	
+		return buildString { 
+			payload.forEach { 
+				val letter = latin[cyrilic.indexOf(it, ignoreCase = true)]; 
+				append(if (it.isUpperCase()) letter.toUpperCase() else letter) 
+			}
+		}
     }
 
     fun toInitials(firstName: String?, lastName: String?): String? {
