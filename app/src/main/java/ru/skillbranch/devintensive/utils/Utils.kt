@@ -25,12 +25,12 @@ object Utils {
     }
 
     fun toInitials(firstName: String?, lastName: String?): String? {
-        val a :Char? = firstName?.trimStart()?.firstOrNull()?.toUpperCase()
-        val b :Char?  = lastName?.trimStart()?.firstOrNull()?.toUpperCase()
+        val a = firstName?.trimStart()?.firstOrNull()?.toUpperCase()
+        val b = lastName?.trimStart()?.firstOrNull()?.toUpperCase()
 
         return if (a == null && b == null) null
-            else if (a==null) b.toString()
-            else if (b==null) a.toString()
+            else if (a == null) b.toString()
+            else if (b == null) a.toString()
             else a.toString() + b
     }
 }
