@@ -16,8 +16,9 @@ object Utils {
 	
 		return buildString { 
 			payload.forEach { 
-				val letter = latin[cyrilic.indexOf(it, ignoreCase = true)]; 
-				append(if (it.isUpperCase()) letter.toUpperCase() else letter) 
+				val i = cyrilic.indexOf(it, ignoreCase = true)
+				if (i < 0) append(it)
+				else append(if (it.isUpperCase()) latin[i].toUpperCase() else latin[i]) 
 			}
 		}
     }
