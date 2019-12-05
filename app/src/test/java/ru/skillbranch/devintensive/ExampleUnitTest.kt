@@ -69,6 +69,14 @@ class ExampleUnitTest {
         println("$user1 $user2 $user3")
 
     }
+    
+    @Test
+    fun test_data_mapping() {
+        val user  = User.makeUser("John Wick")
+        val userView = user.toUserView();
+        println(user);
+        userView.printMe();
+    }
 
     @Test
     fun test_toInitials() {
