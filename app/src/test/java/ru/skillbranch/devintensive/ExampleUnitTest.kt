@@ -6,7 +6,7 @@ import org.junit.Assert.*
 import ru.skillbranch.devintensive.extensions.TimeUnits
 import ru.skillbranch.devintensive.extensions.add
 import ru.skillbranch.devintensive.extensions.toUserView
-import ru.skillbranch.devintensive.models.User
+import ru.skillbranch.devintensive.models.*
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
@@ -98,5 +98,29 @@ class ExampleUnitTest {
     fun test_transliteration() {
         assertEquals("Zhenya Stereotipov", Utils.transliteration("Женя Стереотипов"))
         assertEquals("Amazing_Petr", Utils.transliteration("Amazing Петр","_"))
+    }
+
+    @Test
+    fun test_abstract_factory() {
+        val user  = User.makeUser("John Wick")
+        val textMessage = BaseMessage.makeMessage(user, Chat(""), payload = "any text message", type = "text")
+        val imgMessage = BaseMessage.makeMessage(user, Chat(""), payload = "any image url", type = "image")
+
+        when(textMessage) {
+            is TextMessage -> println("this is text message")
+            is ImageMessage -> println("this is image message")
+        }
+
+        when(imgMessage) {
+            is TextMessage -> println("this is text message")
+            is ImageMessage -> println("this is image message")
+        }
+
+        println(textMessage.formatMessage())
+    }
+
+    @Test
+    fun test_String_truncate() {
+        val text = "Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»"
     }
 }
