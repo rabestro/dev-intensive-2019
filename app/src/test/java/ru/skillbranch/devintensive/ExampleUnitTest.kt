@@ -135,6 +135,7 @@ class ExampleUnitTest {
         assertEquals("более года назад", Date().add(-400, TimeUnits.DAY).humanizeDiff())
         assertEquals("более чем через год", Date().add(400, TimeUnits.DAY).humanizeDiff())
     }
+
     @Test
     fun test_plural() {
         assertEquals("0 секунд", TimeUnits.SECOND.plural(0))
@@ -182,4 +183,11 @@ class ExampleUnitTest {
         assertEquals("311 дней", TimeUnits.DAY.plural(311))
         assertEquals("1234 дня", TimeUnits.DAY.plural(1234))
     }
+
+    @Test
+    fun test_time_prular() {
+
+        println(TimeUnits.DAY.plural(0))
+    }
+
 }
