@@ -9,8 +9,6 @@ const val MINUTE = 60 * SECOND
 const val HOUR = 60 * MINUTE
 const val DAY = 24 * HOUR
 
-// val Int.sec get() = this / 1000
-
 fun Date.format(pattern: String="HH:mm:ss dd.MM.yy") : String {
     val dateFormat = SimpleDateFormat(pattern, Locale("ru"))
     return dateFormat.format(this)
@@ -31,15 +29,16 @@ val Int.sec get() = this * TimeUnits.SECOND.size
 val Int.min get() = this * TimeUnits.MINUTE.size
 val Int.hour get() = this * TimeUnits.HOUR.size
 val Long.day get() = this * TimeUnits.DAY.size
+
 val Long.asMin get() = this.absoluteValue / TimeUnits.MINUTE.size
 val Long.asHour get() = this.absoluteValue / TimeUnits.HOUR.size
 val Long.asDay get() = this.absoluteValue / TimeUnits.DAY.size
 
 fun Date.humanizeDiff(date: Date = Date()) =
     when(val diff: Long = date.time - time) {
-	    in 0..1.sec -> "только что"
-	    in 1.sec..45.sec -> "несколько секунд назад"
-	    in 45.sec..75.sec -> "минуту назад"
+        in 0..1.sec -> "только что"
+        in 1.sec..45.sec -> "несколько секунд назад"
+        in 45.sec..75.sec -> "минуту назад"
         in 75.sec..45.min -> "${TimeUnits.MINUTE.plural(diff.asMin)} назад"
         in 45.min..75.min-> "час назад"
         in 75.min .. 22.hour -> "${TimeUnits.HOUR.plural(diff.asHour)} назад"
@@ -53,8 +52,8 @@ fun Date.humanizeDiff(date: Date = Date()) =
         in (-22).hour..(-75).min -> "через ${TimeUnits.HOUR.plural(diff.asHour)}"
         in (-26).hour..(-22).hour -> "через день"
         in (-360L).day..(-26).hour -> "через ${TimeUnits.DAY.plural(diff.asDay)}"
-	    else -> if (diff > 0) "более года назад" else "более чем через год"
-	}
+        else -> if (diff > 0) "более года назад" else "более чем через год"
+    }
 
 enum class TimeUnits(val size : Long, val russianName: Array<String>) {
 
