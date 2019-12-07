@@ -60,22 +60,22 @@ fun Date.humanizeDiff(date: Date = Date()): String {
 	}
 }
 
-enum class TimeUnits(val size : Long) {
-    SECOND(1000L) {
-        override fun plural(value:Int) =
-            "$value секунд${when(value % 10) {1 -> "а"; in 2..4 -> "ы"; else -> ""}}"
-    },
-    MINUTE(60000L) {
-        override fun plural(value:Int) =
-            "$value минут${when(value % 10) {1 -> "а"; in 2..4 -> "ы"; else -> ""}}"
-    },
-    HOUR(3600000L) {
-        override fun plural(value:Int) =
-            "$value ${when(value % 10) {1 -> "час"; in 2..4 -> "часа"; else -> "часов"}}"
-    },
-    DAY(86400000L) {
-        override fun plural(value:Int) =
-            "$value ${when(value % 10) {1 -> "день"; in 2..4 -> "дня"; else -> "дней"}}"
-    };
-    abstract fun plural(value:Int): String
+enum class TimeUnits(val size : Long, val russianName: Array<String>) {
+
+    SECOND(1000L, arrayOf("секунд", "секунду", "секунды")),
+
+    MINUTE(60000L, arrayOf("минут", "минуту", "минуты")),
+
+    HOUR(3600000L, arrayOf("часов", "час", "часа")),
+
+    DAY(86400000L, arrayOf("дней", "день", "дня"));
+
+    fun plural(value:Int): String = "$value ${this.russianName[calculateEnding(value)]}"
+
+    private fun calculateEnding(value: Int) = when {
+        value % 100 in 5..20 -> 0
+        value % 10 in 2..4 -> 2
+        value % 10 == 1 -> 1
+        else -> 0
+    }
 }
