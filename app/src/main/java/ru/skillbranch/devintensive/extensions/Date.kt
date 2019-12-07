@@ -60,20 +60,20 @@ fun Date.humanizeDiff(date: Date = Date()): String {
 	}
 }
 
-enum class TimeUnits {
-    SECOND {
+enum class TimeUnits(val size : Long) {
+    SECOND(1000L) {
         override fun plural(value:Int) =
             "$value секунд${when(value % 10) {1 -> "а"; in 2..4 -> "ы"; else -> ""}}"
     },
-    MINUTE {
+    MINUTE(60000L) {
         override fun plural(value:Int) =
             "$value минут${when(value % 10) {1 -> "а"; in 2..4 -> "ы"; else -> ""}}"
     },
-    HOUR {
+    HOUR(3600000L) {
         override fun plural(value:Int) =
             "$value ${when(value % 10) {1 -> "час"; in 2..4 -> "часа"; else -> "часов"}}"
     },
-    DAY {
+    DAY(86400000L) {
         override fun plural(value:Int) =
             "$value ${when(value % 10) {1 -> "день"; in 2..4 -> "дня"; else -> "дней"}}"
     };
