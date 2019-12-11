@@ -13,7 +13,6 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.models.Bender
 
-
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var benderImage : ImageView
     lateinit var textTxt : TextView
@@ -24,6 +23,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.d("M_MainActivity","onCreate started!")
 
         // benderImage = findViewById(R.id.iv_bender) as ImageView
         benderImage = iv_bender
@@ -37,14 +37,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         val message = savedInstanceState?.getString("MESSAGE") ?: ""
         messageEt.setText(message)
+        Log.d("M_MainActivity","onCreate: '${message}'")
 
         val (r, g, b) = benderObj.status.color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
 
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
-
-        Log.d("M_MainActivity","onCreate: '${message}'")
     }
 
     override fun onRestart() {
@@ -91,7 +90,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onSaveInstanceState(outState)
 
         outState?.putString("STATUS", benderObj.status.name)
-        outState?.putString("QUESTION", benderObj.question.question)
+        outState?.putString("QUESTION", benderObj.question.name)
         outState?.putString("MESSAGE", messageEt.text.toString())
 
         Log.d("M_MainActivity","onSaveInstance '${messageEt.text.toString()}'")

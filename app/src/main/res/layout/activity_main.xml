@@ -26,7 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:src="@drawable/bender_dance"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:contentDescription="bender_dance" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,6 +38,8 @@
 
         <EditText
             android:id="@+id/et_message"
+            android:inputType="text"
+            android:imeOptions="actionDone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:lines="1"
@@ -51,6 +54,7 @@
 
         <ImageView
             android:id="@+id/iv_send"
+            android:contentDescription="send"
             android:layout_width="@dimen/spacing_large_24"
             android:layout_height="@dimen/spacing_large_24"
             android:src="@drawable/ic_send_black_24dp"
