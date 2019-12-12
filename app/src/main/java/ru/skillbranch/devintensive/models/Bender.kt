@@ -23,21 +23,23 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
     }
 
     fun listenAnswer(answer: String) : Pair<String, Triple<Int, Int, Int>> {
+        if (question == Question.IDLE) return "${question.question}" to status.color
+
         var message = question.validateAnswer(answer)
-        if (message.isEmpty() && question != Question.IDLE) {
+        if (message.isEmpty()) {
             if (question.answers.contains(answer.toLowerCase())) {
-                message = "Отлично - ты справился\n"
+                message = "Отлично - ты справился"
                 question = question.nextQuestion()
             } else {
                 status = status.nextStatus()
                 if (status == Status.NORMAL) {
                     question = Question.NAME
-                    message = "Это неправильный ответ. Давай все по новой\n"
+                    message = "Это неправильный ответ. Давай все по новой"
                 }
-                else message = "Это неправильный ответ\n"
+                else message = "Это неправильный ответ"
             }
         }
-        return "${message}${question.question}" to status.color
+        return "${message}\n${question.question}" to status.color
     }
 
     enum class Question(val question: String, val answers: List<String>) {

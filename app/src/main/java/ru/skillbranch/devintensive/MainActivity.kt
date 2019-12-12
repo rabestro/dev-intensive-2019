@@ -16,7 +16,6 @@ import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.extensions.hideKeyboard
-import ru.skillbranch.devintensive.extensions.hideSoftKeyboard
 import ru.skillbranch.devintensive.models.Bender
 
 
@@ -41,20 +40,39 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val status = savedInstanceState?.getString("STATUS") ?: Bender.Status.NORMAL.name
         val question = savedInstanceState?.getString("QUESTION") ?: Bender.Question.NAME.name
         benderObj = Bender(Bender.Status.valueOf(status), Bender.Question.valueOf(question))
-
+        val (r, g, b) = benderObj.status.color
+        benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
         val message = savedInstanceState?.getString("MESSAGE") ?: ""
         messageEt.setText(message)
         Log.d("M_MainActivity","onCreate: '${message}'")
-        messageEt.setOnEditorActionListener(DoneOnEditorActionListener())
-
-        val (r, g, b) = benderObj.status.color
-        benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
 
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
 
-        // hideSoftKeyboard()
-        // hideKeyboard()
+        messageEt.setOnEditorActionListener (DoneOnEditorActionListener())
+        hideKeyboard()
+    }
+    private fun sendAnswer() {
+        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
+        messageEt.setText("")
+        val (r, g, b) = color
+        benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
+        textTxt.text = phrase
+    }
+
+    inner class DoneOnEditorActionListener : OnEditorActionListener {
+        override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                hideKeyboard()
+                sendAnswer()
+                return true
+            }
+            return false
+        }
+    }
+
+    override fun onClick(v: View?) {
+        if (v?.id == R.id.iv_send) sendAnswer()
     }
 
     override fun onRestart() {
@@ -88,16 +106,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         Log.d("M_MainActivity","onDestroy")
     }
 
-    override fun onClick(v: View?) {
-        if (v?.id == R.id.iv_send) {
-            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
-            messageEt.setText("")
-            val (r, g, b) = color
-            benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
-            textTxt.text = phrase
-        }
-    }
-
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
 
@@ -109,14 +117,3 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 }
 
-internal class DoneOnEditorActionListener : OnEditorActionListener {
-    override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
-        if (actionId == EditorInfo.IME_ACTION_DONE) {
-            val imm: InputMethodManager =
-                v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(v.windowToken, 0)
-            return true
-        }
-        return false
-    }
-}
