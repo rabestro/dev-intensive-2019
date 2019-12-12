@@ -15,6 +15,8 @@ import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.devintensive.extensions.hideKeyboard
+import ru.skillbranch.devintensive.extensions.hideSoftKeyboard
 import ru.skillbranch.devintensive.models.Bender
 
 
@@ -50,6 +52,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
+
+        // hideSoftKeyboard()
+        // hideKeyboard()
     }
 
     override fun onRestart() {
@@ -64,6 +69,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+
         Log.d("M_MainActivity","onResume")
     }
 

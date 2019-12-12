@@ -2,7 +2,6 @@ package ru.skillbranch.devintensive.models
 import android.util.Log
 
 class Bender(var status: Status = Status.NORMAL, var question: Question = Question.NAME) {
-    var incorrectAnswerSequence = 0
 
     fun askQuestion() : String = when (question) {
         Question.NAME -> Question.NAME.question
@@ -25,20 +24,20 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
 
     fun listenAnswer(answer: String) : Pair<String, Triple<Int, Int, Int>> {
         var message = question.validateAnswer(answer)
-        if (message.isEmpty()) {
+        if (message.isEmpty() && question != Question.IDLE) {
             if (question.answers.contains(answer.toLowerCase())) {
-                message = "Отлично - ты справился!"
+                message = "Отлично - ты справился\n"
                 question = question.nextQuestion()
             } else {
                 status = status.nextStatus()
                 if (status == Status.NORMAL) {
                     question = Question.NAME
-                    message = "Это неправильный ответ.\nДавай все по новой"
+                    message = "Это неправильный ответ. Давай все по новой\n"
                 }
-                else message = "Это неправильный ответ"
+                else message = "Это неправильный ответ\n"
             }
         }
-        return "${message}\n${question.question}" to status.color
+        return "${message}${question.question}" to status.color
     }
 
     enum class Question(val question: String, val answers: List<String>) {
@@ -75,7 +74,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
                 if (answer.contains(Regex("^\\d{7}$"))) ""
                 else "Серийный номер содержит только цифры, и их 7"
         },
-        IDLE("На этом всё, вопросов больше нет.", listOf<String>()) {
+        IDLE("На этом все, вопросов больше нет", listOf<String>()) {
             override fun nextQuestion(): Question = IDLE
             override fun validateAnswer(answer: String): String = ""
         };
