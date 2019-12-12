@@ -1,4 +1,5 @@
 package ru.skillbranch.devintensive.models
+import android.util.Log
 
 class Bender(var status: Status = Status.NORMAL, var question: Question = Question.NAME) {
     var incorrectAnswerSequence = 0
@@ -22,60 +23,64 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
                 if (this.ordinal < values().lastIndex) this.ordinal + 1 else 0 ]
     }
 
-/*
-
-    Валидация
-
-    Question.NAME -> "Имя должно начинаться с заглавной буквы"
-    Question.PROFESSION -> "Профессия должна начинаться со строчной буквы"
-    Question.MATERIAL -> "Материал не должен содержать цифр"
-    Question.BDAY -> "Год моего рождения должен содержать только цифры"
-    Question.SERIAL -> "Серийный номер содержит только цифры, и их 7"
-    Question.IDLE -> //игнорировать валидацию
-*/
-
-    private fun startOver(): Pair<String, Triple<Int, Int, Int>> {
-        question = Question.NAME
-        return "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
-    }
-
-    private fun repeatQuestion() : Pair<String, Triple<Int, Int, Int>> =
-        "Это неправильный ответ\n${question.question}" to status.color
-
-    private fun correctAnswer() : Pair<String, Triple<Int, Int, Int>> {
-        question = question.nextQuestion()
-        return "Отлично - ты справился!\n${question.question}" to status.color
-    }
-
-    fun listenAnswer(answer: String) : Pair<String, Triple<Int, Int, Int>> =
-        if (question.answers.contains(answer)) {
-            correctAnswer()
-        } else {
-            status = status.nextStatus()
-            if (status == Status.NORMAL) startOver()
-            else repeatQuestion()
+    fun listenAnswer(answer: String) : Pair<String, Triple<Int, Int, Int>> {
+        var message = question.validateAnswer(answer)
+        if (message.isEmpty()) {
+            if (question.answers.contains(answer.toLowerCase())) {
+                message = "Отлично - ты справился!"
+                question = question.nextQuestion()
+            } else {
+                status = status.nextStatus()
+                if (status == Status.NORMAL) {
+                    question = Question.NAME
+                    message = "Это неправильный ответ.\nДавай все по новой"
+                }
+                else message = "Это неправильный ответ"
+            }
         }
+        return "${message}\n${question.question}" to status.color
+    }
 
     enum class Question(val question: String, val answers: List<String>) {
         NAME("Как меня зовут?", listOf<String>("бендер", "bender")) {
+            
             override fun nextQuestion(): Question = PROFESSION
-        },
+            
+            override fun validateAnswer(answer: String): String =
+                if (answer.isNotEmpty() && answer.first().isUpperCase()) ""
+                else "Имя должно начинаться с заглавной буквы"
+            },
+                
         PROFESSION("Назови мою профессию?", listOf<String>("сгибальщик", "bender")) {
             override fun nextQuestion(): Question = MATERIAL
+            override fun validateAnswer(answer: String): String =
+                if (answer.isNotEmpty() && answer.first().isLowerCase()) ""
+                else "Профессия должна начинаться со строчной буквы"
         },
         MATERIAL("Из чего я сделан?", listOf<String>("метал", "дерево", "metal", "iron", "wood")) {
             override fun nextQuestion(): Question = BDAY
+            override fun validateAnswer(answer: String): String =
+                if (!answer.contains(Regex("\\d"))) ""
+                else "Материал не должен содержать цифр"
         },
         BDAY("Когда меня создали?", listOf<String>("2993")) {
             override fun nextQuestion(): Question = SERIAL
+            override fun validateAnswer(answer: String): String =
+                if (answer.contains(Regex("^\\d+$"))) ""
+                else "Год моего рождения должен содержать только цифры"
         },
         SERIAL("Мой серийный номер?", listOf<String>("2716057")) {
             override fun nextQuestion(): Question = IDLE
+            override fun validateAnswer(answer: String): String =
+                if (answer.contains(Regex("^\\d{7}$"))) ""
+                else "Серийный номер содержит только цифры, и их 7"
         },
         IDLE("На этом всё, вопросов больше нет.", listOf<String>()) {
             override fun nextQuestion(): Question = IDLE
+            override fun validateAnswer(answer: String): String = ""
         };
 
         abstract fun nextQuestion() : Question
+        abstract fun validateAnswer(answer: String) : String
     }
 }

@@ -1,17 +1,22 @@
 package ru.skillbranch.devintensive
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.models.Bender
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var benderImage : ImageView
@@ -38,6 +43,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val message = savedInstanceState?.getString("MESSAGE") ?: ""
         messageEt.setText(message)
         Log.d("M_MainActivity","onCreate: '${message}'")
+        messageEt.setOnEditorActionListener(DoneOnEditorActionListener())
 
         val (r, g, b) = benderObj.status.color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
@@ -78,7 +84,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         if (v?.id == R.id.iv_send) {
-            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
+            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
             messageEt.setText("")
             val (r, g, b) = color
             benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
@@ -94,5 +100,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         outState?.putString("MESSAGE", messageEt.text.toString())
 
         Log.d("M_MainActivity","onSaveInstance '${messageEt.text.toString()}'")
+    }
+}
+
+internal class DoneOnEditorActionListener : OnEditorActionListener {
+    override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            val imm: InputMethodManager =
+                v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(v.windowToken, 0)
+            return true
+        }
+        return false
     }
 }
