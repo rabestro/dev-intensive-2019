@@ -1,6 +1,5 @@
 package ru.skillbranch.devintensive
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -8,7 +7,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,8 +14,8 @@ import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.extensions.hideKeyboard
+import ru.skillbranch.devintensive.extensions.isKeyboardOpen
 import ru.skillbranch.devintensive.models.Bender
-
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var benderImage : ImageView
@@ -58,6 +56,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val (r, g, b) = color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
         textTxt.text = phrase
+        Log.d("M_MainActivity","isKeyboardOpen: ${isKeyboardOpen()}")
     }
 
     inner class DoneOnEditorActionListener : OnEditorActionListener {
