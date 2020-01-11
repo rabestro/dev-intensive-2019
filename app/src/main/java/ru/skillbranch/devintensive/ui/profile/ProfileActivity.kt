@@ -1,4 +1,4 @@
-package ru.skillbranch.devintensive
+package ru.skillbranch.devintensive.ui.profile
 
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -13,11 +13,12 @@ import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.extensions.isKeyboardOpen
 import ru.skillbranch.devintensive.models.Bender
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class ProfileActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var benderImage : ImageView
     lateinit var textTxt : TextView
     lateinit var messageEt : EditText
