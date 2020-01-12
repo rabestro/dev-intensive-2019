@@ -94,14 +94,16 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_large_20"
                 android:text="0"
-                android:fontFamily="sans-serif-medium"/>
+                android:fontFamily="sans-serif-medium"
+                android:drawableLeft="@drawable/ic_sp_24"
+                android:drawablePadding="@dimen/spacing_tiny_4"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_normal_16"
-                android:text="Рейтинг"/>
+                android:text="@string/profile_label_rating"/>
 
         </LinearLayout>
 
@@ -119,14 +121,16 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_large_20"
                 android:text="0"
-                android:fontFamily="sans-serif-medium"/>
+                android:fontFamily="sans-serif-medium"
+                android:drawableLeft="@drawable/ic_respect_24"
+                android:drawablePadding="@dimen/spacing_tiny_4"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_normal_16"
-                android:text="Уважение"/>
+                android:text="@string/profile_label_respect"/>
 
         </LinearLayout>
 

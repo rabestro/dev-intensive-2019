@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Chat Dev-intensive</string>
+    <string name="profile_label_rating">Рейтинг</string>
+    <string name="profile_label_respect">Уважение</string>
 </resources>
