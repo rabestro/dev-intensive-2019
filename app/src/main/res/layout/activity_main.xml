@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileActivity"
     android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -17,9 +18,13 @@
             android:src="@drawable/profile_bg"
             android:scaleType="centerCrop"
             app:aspectRatio="1.78"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/spacing_normal_16">
+
             <ImageButton
                 android:layout_width="@dimen/btn_round_size_40"
                 android:layout_height="@dimen/btn_round_size_40"
@@ -44,10 +49,33 @@
                 android:layout_toRightOf="@id/iv_avatar"
                 android:layout_marginLeft="@dimen/spacing_huge_32"
                 android:layout_marginTop="36dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_name"
+                android:layout_below="@id/iv_avatar"
+                android:layout_centerHorizontal="true"
+                tools:text="John Doe"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_large_24"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginTop="@dimen/spacing_normal_16"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_rank"
+                android:layout_below="@id/tv_name"
+                android:layout_centerHorizontal="true"
+                tools:text="Junior Android Developer"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_normal_16"
+                />
+
         </RelativeLayout>
 
     </FrameLayout>
-
 
 
 </LinearLayout>
