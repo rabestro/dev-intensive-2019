@@ -22,13 +22,17 @@
             android:layout_height="wrap_content">
             <ImageButton
                 android:layout_width="@dimen/btn_round_size_40"
-                android:layout_height="@dimen/btn_round_size_40"/>
+                android:layout_height="@dimen/btn_round_size_40"
+                android:background="@drawable/btn_round_bg"
+                android:src="@drawable/ic_brightness_high_black_24dp"/>
             <ImageView
                 android:layout_width="@dimen/avatar_round_size"
                 android:layout_height="@dimen/avatar_round_size"/>
             <ImageButton
                 android:layout_width="@dimen/btn_round_size_40"
-                android:layout_height="@dimen/btn_round_size_40"/>
+                android:layout_height="@dimen/btn_round_size_40"
+                android:background="@drawable/btn_round_bg"
+                android:src="@drawable/ic_edit_black_24dp"/>
         </RelativeLayout>
 
     </FrameLayout>
